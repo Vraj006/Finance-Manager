@@ -50,38 +50,41 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const { email, password } = req.body;
-
-        // Check if user exists
-        let user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+      const { email, password } = req.body;
+  
+      // Check if user exists
+      let user = await User.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
+  
+      // Validate password
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
+  
+      // Create token
+      const payload = {
+        user: {
+          id: user.id
         }
-
-        // Validate password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+      };
+  
+      jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' },
+        (err, token) => {
+          if (err) {
+            console.error('Error generating token:', err);
+            return res.status(500).json({ message: 'Error generating token' });
+          }
+          res.json({ token });
         }
-
-        // Create token
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
-
-        jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            }
-        );
+      );
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
+      console.error('Error in login function:', err);
+      res.status(500).json({ message: 'Server error', error: err.message });
     }
-};
+  };
