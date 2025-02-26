@@ -1405,7 +1405,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useThemeMode } from '../components/style/ThemeProvider';
 import PageTransition from '../components/style/PageTransition';
 import StatisticsCard from '../components/style/StatisticsCard';
-import PortfolioChart from './PortfolioChart';
+import PortfolioChart from './portfolioChart';
 import StockHistory from './StockHistory';
 // Add this import at the top of your file, with the other imports
 import { stockService } from '../services/stockService';
