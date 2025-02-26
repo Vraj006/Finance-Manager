@@ -11,7 +11,10 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: process.env.NODE_ENV === 'production' ? 'https://finance-manager-xl3h.onrender.com' : 'http://localhost:3000',
+    credentials: true
+  }));
 app.use(express.json());
 app.use(morgan('dev'));
 const portfolioRoutes = require('./routes/portfolio');
