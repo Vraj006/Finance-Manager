@@ -71,14 +71,19 @@ exports.login = async (req, res) => {
         }
       };
   
+      if (!process.env.JWT_SECRET) {
+        console.error('JWT_SECRET is not defined');
+        return res.status(500).json({ message: 'Server configuration error' });
+      }
+
       jwt.sign(
         payload,
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET || 'fallback_secret_for_dev_only',  // Add a fallback for development
         { expiresIn: '1h' },
         (err, token) => {
           if (err) {
-            console.error('Error generating token:', err);
-            return res.status(500).json({ message: 'Error generating token' });
+            console.error('JWT Sign Error:', err);
+            return res.status(500).json({ message: 'Error generating token', error: err.message });
           }
           res.json({ token });
         }
