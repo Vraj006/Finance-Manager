@@ -1,5 +1,5 @@
 const LLAMA_API_URL = 'https://api.llama-api.com'; // Replace with actual Llama API endpoint
-const LLAMA_API_KEY = process.env.LLAMA_API_KEY;  // Replace with your Llama API key
+const LLAMA_API_KEY = process.env.REACT_APP_LLAMA_API_KEY;  // Replace with your Llama API key
 
 export const aiService = {
   getInvestmentRecommendations: async (portfolio, riskProfile) => {
