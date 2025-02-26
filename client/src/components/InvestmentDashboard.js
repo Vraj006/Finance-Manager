@@ -1522,7 +1522,7 @@ const InvestmentDashboard = () => {
     const fetchPortfolio = async () => {
         try {
             setLoading(true);
-            const response = await fetch('http://localhost:5000/api/portfolio', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/portfolio`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1701,7 +1701,7 @@ const InvestmentDashboard = () => {
     
             const currentPrice = Number(quote['05. price']);
     
-            const response = await fetch('http://localhost:5000/api/portfolio/buy', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/portfolio/buy`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1737,7 +1737,7 @@ const InvestmentDashboard = () => {
         if (!selectedSellStock || !sellShares) return;
 
         try {
-            const response = await fetch('http://localhost:5000/api/portfolio/sell', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/portfolio/sell`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1768,7 +1768,7 @@ const InvestmentDashboard = () => {
     const updatePortfolioValues = async () => {
         console.log('Updating portfolio values'); // Add this log
         try {
-            const response = await fetch('http://localhost:5000/api/portfolio/update-values', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/portfolio/update-values`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
