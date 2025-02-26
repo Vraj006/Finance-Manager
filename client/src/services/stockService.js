@@ -1,4 +1,4 @@
-const ALPHA_VANTAGE_API_KEY = 'IWI7R8YBA56AD3IV';
+const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY;
 const BASE_URL = 'https://www.alphavantage.co/query';
 
 export const stockService = {
