@@ -1,18 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const dotenv = require('dotenv');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = (env) => {
-  // Load environment variables from .env file
-  const envVars = dotenv.config().parsed;
-
-  // Convert environment variables to a format Webpack can use
-  const envKeys = Object.keys(envVars).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(envVars[next]);
-    return prev;
-  }, {});
-
   return {
     entry: './src/index.js',
     output: {
@@ -42,8 +33,12 @@ module.exports = (env) => {
       new HtmlWebpackPlugin({
         template: './public/index.html'
       }),
-      // Add the DefinePlugin to inject environment variables
-      new webpack.DefinePlugin(envKeys)
+      // Use Dotenv plugin to load environment variables
+      new Dotenv({
+        safe: true, // Load .env.example if .env is missing
+        systemvars: true, // Load system environment variables
+        defaults: true // Load default values if .env is missing
+      })
     ],
     devServer: {
       historyApiFallback: true,
